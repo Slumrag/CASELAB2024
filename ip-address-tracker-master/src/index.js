@@ -1,5 +1,7 @@
+import 'leaflet/dist/leaflet.css';
 import { getGeolocationByIp } from './api/getGeolocationByIp';
-import { validateIp } from './utils';
+import { validateIp, initMap } from './utils';
+import L from 'leaflet';
 
 const searchBar = document.querySelector('.search-bar');
 const ipAddress = document.querySelector('#ip');
@@ -9,12 +11,17 @@ const isp = document.querySelector('#isp');
 
 searchBar.addEventListener('submit', handleIpSubmit);
 
+const { marker, map } = initMap();
+
 function setGeolocationInfo(info) {
+  const { country, region, lat, lng } = info.location;
   ipAddress.textContent = info.ip;
-  const { country, region } = info.location;
   location.textContent = `${country} ${region}`;
   timezone.textContent = info.location.timezone;
   isp.textContent = info.isp;
+
+  map.setView([lat, lng]);
+  marker.setLatLng([lat, lng]);
 }
 
 function handleIpSubmit(e) {
