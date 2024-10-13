@@ -1,0 +1,7 @@
+*.zip
+*.mp4
+*/**/.env
+node_modules
+build
+dist
+.cache
